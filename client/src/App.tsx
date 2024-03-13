@@ -1,26 +1,37 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function App() {
   //Define a state variable products, using useState
-  const [products, setProducts] = useState([
-    {id: 1, name:'Product 1', price: 10},
-    {id: 2, name:'Product 2', price: 20},
-    {id: 3, name:'Product 3', price: 30}
-  ]);
+  const [products, setProducts] = useState([]);
+  useEffect(()=>{
+    //Function to fetch the data
+    const fetchData = async () =>{
+      try{
+        const response = await fetch('http://localhost:8081/api/products');
+        if(!response.ok){
+          throw new Error('Failed to fetch the data');
+        }
+        const data = await response.json();
+        setProducts(data.content);
+      }catch(error){
+        console.error('Error Fetching Data:', error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div>
       <h1>Sports Center</h1>
       {products.map(product=>(
         <div key={product.id}>
           <p>Name: {product.name}</p>
-          <p>Name: ${product.price}</p>
+          <p>Description: {product.description}</p>
+          <p>Price: ${product.price}</p>
+          <p>Brand: {product.brand}</p>
+          <p>Type: ${product.type}</p>
         </div>
       ))}
-      <button onClick={()=>{
-        setProducts(prevProducts=>[
-          ...prevProducts, {id:prevProducts.length+1, name:`Product ${prevProducts.length+1}`, price:Math.floor(Math.random()*100)+1}
-        ]);
-      }}>Add Product</button>
+      
     </div>
   )
 }
