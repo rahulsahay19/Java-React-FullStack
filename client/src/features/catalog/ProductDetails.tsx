@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFoundError";
 
 export default function ProductDetails(){
     const {id} = useParams<{id:string}>();
@@ -25,13 +27,13 @@ export default function ProductDetails(){
         }).format(price);
       }
     useEffect(()=>{
-        axios.get(`http://localhost:8081/api/products/${id}`)
-        .then(response=>setProduct(response.data))
+       id && agent.Store.details(parseInt(id)) 
+        .then(response=>setProduct(response))
         .catch(error=>console.error(error))
         .finally(()=>setLoading(false));
     }, [id])
     if(loading) return <h3>Loading Product...</h3>
-    if(!product) return <h3>Product not found</h3>
+    if(!product) return <NotFound/>
     return(
         <Grid container spacing={6}>
         <Grid item xs={6}>
