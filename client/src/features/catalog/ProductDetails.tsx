@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFoundError";
+import Spinner from "../../app/layout/Spinner";
 
 export default function ProductDetails(){
     const {id} = useParams<{id:string}>();
@@ -32,7 +33,7 @@ export default function ProductDetails(){
         .catch(error=>console.error(error))
         .finally(()=>setLoading(false));
     }, [id])
-    if(loading) return <h3>Loading Product...</h3>
+    if(loading) return <Spinner message='Loading Product...'/>
     if(!product) return <NotFound/>
     return(
         <Grid container spacing={6}>

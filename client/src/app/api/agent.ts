@@ -4,15 +4,17 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL ='http://localhost:8081/api/';
 
+const idle = () => new Promise(resolve => setTimeout(resolve, 100));
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.response.use(async response=>{
+    await idle();
     return response
 }, (error: AxiosError)=>{
     const {status} = error.response as AxiosResponse; 
     switch(status){
         case 404:
-            toast.error("Resourcse not found");
+            toast.error("Resource not found");
             router.navigate('/not-found');
             break;
         case 500:
