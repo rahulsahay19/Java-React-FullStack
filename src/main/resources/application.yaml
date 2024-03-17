@@ -18,3 +18,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
