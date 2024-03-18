@@ -6,7 +6,7 @@ import { setBasket } from "../../features/basket/basketSlice";
 import { createId } from "@paralleldrive/cuid2";
 
 class BasketService {
-    apiUrl = "http://localhost:8080/api/baskets";
+    apiUrl = "http://localhost:8081/api/baskets";
 
     async getBasketFromApi(){
         try{
