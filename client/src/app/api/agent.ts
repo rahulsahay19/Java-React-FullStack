@@ -117,10 +117,15 @@ const Basket = {
       }
 }
 
+const Account = {
+  login: (values:any) =>requests.post('auth/login', values)
+}
+
 
 const agent = {
     Store,
-    Basket
+    Basket,
+    Account
 }
 
 export default agent;
